@@ -1,6 +1,11 @@
 class UserModel {
-  final String phone;
-  final String password;
+  final String name;
+  final String currentPlan;
+  final bool hasFreePlan;
 
-  UserModel({required this.phone, required this.password});
+  UserModel({
+    required this.name,
+    required this.currentPlan,
+    required this.hasFreePlan,
+  });
 }
