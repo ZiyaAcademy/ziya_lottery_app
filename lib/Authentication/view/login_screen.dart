@@ -98,7 +98,11 @@ class SignInView extends StatelessWidget {
                         ),
                         SizedBox(height: 20.h),
                         // 🔹 Sign In Button
-                        CustomButton(text: AppStrings.signIn, onPressed: () {}),
+                        CustomButton(
+                          borderRadius: 50.0.r,
+                          text: AppStrings.signIn,
+                          onPressed: () {},
+                        ),
                         SizedBox(height: 20.h),
                         Center(
                           child: Padding(

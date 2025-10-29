@@ -8,7 +8,7 @@ class AuthGradientBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300.h,
+      height: 800.h,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [AppColors.primaryBlue, AppColors.gradientLight],
