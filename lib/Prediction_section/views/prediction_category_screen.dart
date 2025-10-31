@@ -1,11 +1,13 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:ziya_lottery_app/Constants/app_colors.dart';
-import 'package:ziya_lottery_app/Home/models/lottery.dart';
+import 'package:ziya_lottery_app/Prediction_section/models/prediction_model.dart';
 import 'package:ziya_lottery_app/Prediction_section/view_models/prediction.vm.dart';
+import 'package:ziya_lottery_app/Prediction_section/views/PredictionScreen.dart';
 import 'package:ziya_lottery_app/common_widgets/gradient_container.dart';
 import 'package:ziya_lottery_app/common_widgets/gradient_header.dart';
+import 'package:ziya_lottery_app/Home/models/lottery.dart';
 
 class PredictionCategoryScreen extends StatelessWidget {
   final LotteryModel lottery;
@@ -18,11 +20,11 @@ class PredictionCategoryScreen extends StatelessWidget {
     final prizes = vm.getPrizesForLottery(lottery.name);
 
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 🟦 Gradient Header
+          // Gradient Header
           GradientHeader(
             child: Padding(
               padding: EdgeInsets.only(bottom: 30.0.h, top: 0.0.h),
@@ -75,7 +77,7 @@ class PredictionCategoryScreen extends StatelessWidget {
 
           SizedBox(height: 20.h),
 
-          // 🏆 Prize Categories Section
+          // Prize Categories Section
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -83,8 +85,6 @@ class PredictionCategoryScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         height: 25.w,
@@ -105,7 +105,8 @@ class PredictionCategoryScreen extends StatelessWidget {
                     ],
                   ),
 
-                  // 🏅 List of prize cards
+                  SizedBox(height: 12.h),
+
                   Expanded(
                     child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
@@ -113,7 +114,6 @@ class PredictionCategoryScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final prize = prizes[index];
                         return Container(
-                          //padding: EdgeInsets.symmetric(vertical: 5.h),
                           margin: EdgeInsets.only(bottom: 12.h),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -129,10 +129,8 @@ class PredictionCategoryScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              // 🟦 Left stripe + icon + text
                               Row(
                                 children: [
-                                  // Blue vertical stripe
                                   Container(
                                     width: 5.w,
                                     height: 80.h,
@@ -145,12 +143,8 @@ class PredictionCategoryScreen extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(width: 10.w),
-
-                                  // 🏆 Icon + Text
                                   Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 10.h,
-                                    ),
+                                    padding: EdgeInsets.symmetric(vertical: 10.h),
                                     child: Row(
                                       children: [
                                         GradientContainer(
@@ -163,10 +157,8 @@ class PredictionCategoryScreen extends StatelessWidget {
                                         ),
                                         SizedBox(width: 10.w),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Text(
                                               prize["title"] ?? "",
@@ -201,11 +193,27 @@ class PredictionCategoryScreen extends StatelessWidget {
                                 ],
                               ),
 
-                              // 🔵 Predict Button
                               Padding(
                                 padding: EdgeInsets.only(right: 12.w),
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    final prediction = PredictionModel(
+                                      name: lottery.name,
+                                      prize: prize["title"] ?? "",
+                                      amount: prize["amount"] ?? "",
+                                    );
+                                    // Reset state *before* navigating to ensure a clean start.
+                                    vm.resetPredictionState();
+                                    // Set the new prediction context.
+                                    vm.setSelectedPrediction(prediction);
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const PredictionScreen(),
+                                      ),
+                                    );
+                                  },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 18.w,

@@ -14,6 +14,7 @@ import 'package:ziya_lottery_app/ProfileScreen/view_model/profile_view_model.dar
 import 'package:ziya_lottery_app/Result/ViewModel/lottery_view_model.dart';
 import 'package:ziya_lottery_app/Constants/app_colors.dart';
 import 'package:ziya_lottery_app/common_widgets/bottomNav_bar.dart';
+import 'package:ziya_lottery_app/subscriptionSection/view_model/subscription_view_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => HomeViewModel()),
         ChangeNotifierProvider(create: (_) => PredictionViewModel()),
         ChangeNotifierProvider(create: (_) => LotteryViewModel()),
+        ChangeNotifierProvider(create: (_) => SubscriptionViewModel()),
         ChangeNotifierProvider(create: (_) => PredictionHistoryViewModel()),
         ChangeNotifierProvider(create: (_) => ProfileViewModel()),
       ],

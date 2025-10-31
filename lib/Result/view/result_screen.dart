@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:ziya_lottery_app/Constants/app_colors.dart';
 import 'package:ziya_lottery_app/Constants/app_strings.dart';
 import 'package:ziya_lottery_app/Result/ViewModel/lottery_view_model.dart';
-import 'package:ziya_lottery_app/Result/widgets/custom_app_bar.dart';
+import 'package:ziya_lottery_app/common_widgets/gradient_header.dart';
 import '../widgets/ad_view_content.dart';
 import '../widgets/results_view_content.dart';
 import '../widgets/search_card.dart';
