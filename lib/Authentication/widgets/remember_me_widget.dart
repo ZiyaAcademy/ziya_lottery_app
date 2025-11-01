@@ -8,23 +8,27 @@ class RememberMeRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isTablet = ScreenUtil().screenWidth > 600;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Checkbox(
-          value: true,
-          activeColor: Colors.blue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.r), // responsive radius
+        Transform.scale(
+          scale: isTablet ? 1.8 : 0.9,
+          child: Checkbox(
+            value: true,
+            activeColor: Colors.blue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4.r),
+            ),
+            onChanged: (value) {},
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          onChanged: (value) {},
-          materialTapTargetSize:
-              MaterialTapTargetSize.shrinkWrap, // tighter fit
         ),
         Text(
           AppStrings.rememberMe,
           style: TextStyle(
-            fontSize: 15.sp, // responsive font size
+            fontSize: 15.sp,
             color: AppColors.black,
             fontWeight: FontWeight.w400,
           ),
