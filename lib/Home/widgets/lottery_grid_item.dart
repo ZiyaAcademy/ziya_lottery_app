@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ziya_lottery_app/Constants/app_colors.dart';
+import 'package:ziya_lottery_app/Constants/app_strings.dart';
 import 'package:ziya_lottery_app/Home/models/lottery.dart';
 import 'package:ziya_lottery_app/common_widgets/gradient_container.dart';
 
@@ -29,7 +30,7 @@ class LotteryGridItem extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
             Text(
-              '${lottery.prizes} Prizes',
+              '${lottery.prizes}${AppStrings.Prizes}',
               style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],

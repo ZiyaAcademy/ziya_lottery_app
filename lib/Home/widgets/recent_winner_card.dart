@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ziya_lottery_app/Constants/app_colors.dart';
+import 'package:ziya_lottery_app/Constants/app_strings.dart';
 import 'package:ziya_lottery_app/Home/models/lottery.dart';
 import 'package:ziya_lottery_app/common_widgets/gradient_container.dart';
 
@@ -16,7 +17,6 @@ class RecentWinnerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use full width or a fallback width for smaller cards
     final double cardWidth = fullWidth ? double.infinity : 330.w;
 
     return Container(
@@ -26,15 +26,16 @@ class RecentWinnerCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFFEBF5FF), Color(0xFFDCEEFF)],
+          colors: [AppColors.lightBlue1, AppColors.lightBlue2],
         ),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFFB3D9FF), width: 2),
+        border: Border.all(color: AppColors.borderBlue, width: 2),
       ),
       padding: EdgeInsets.all(16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           /// 🏆 Header Row
           Row(
@@ -55,7 +56,7 @@ class RecentWinnerCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFF111827),
+                        color: AppColors.blackText,
                       ),
                     ),
                     SizedBox(height: 2.h),
@@ -63,7 +64,7 @@ class RecentWinnerCard extends StatelessWidget {
                       winner.lotteryName,
                       style: TextStyle(
                         fontSize: 11.sp,
-                        color: const Color.fromARGB(255, 235, 37, 86),
+                        color: AppColors.pinkRed,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -72,16 +73,15 @@ class RecentWinnerCard extends StatelessWidget {
               ),
             ],
           ),
-
-          SizedBox(height: 6.h),
+          Spacer(),
 
           /// 🎫 Ticket and Location Info Box
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(10.r),
             ),
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.all(15.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -97,7 +97,7 @@ class RecentWinnerCard extends StatelessWidget {
                             width: 16.w,
                             height: 16.w,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFD1FAE5),
+                              color: AppColors.ticketIconBg,
                               borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: const Center(
@@ -114,10 +114,10 @@ class RecentWinnerCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'TICKET NUMBER',
+                                  AppStrings.ticketNumber,
                                   style: TextStyle(
                                     fontSize: 10.sp,
-                                    color: const Color(0xFF6B7280),
+                                    color: AppColors.greyText,
                                     letterSpacing: 0.5,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -128,7 +128,7 @@ class RecentWinnerCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF111827),
+                                    color: AppColors.blackText,
                                   ),
                                 ),
                               ],
@@ -136,6 +136,7 @@ class RecentWinnerCard extends StatelessWidget {
                           ),
                         ],
                       ),
+
                       SizedBox(height: 6.h),
 
                       /// Location
@@ -146,7 +147,7 @@ class RecentWinnerCard extends StatelessWidget {
                             width: 16.w,
                             height: 16.w,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFDCEEFF),
+                              color: AppColors.locationIconBg,
                               borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: const Center(
@@ -163,10 +164,10 @@ class RecentWinnerCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'LOCATION',
+                                  AppStrings.location,
                                   style: TextStyle(
                                     fontSize: 10.sp,
-                                    color: const Color(0xFF6B7280),
+                                    color: AppColors.greyText,
                                     letterSpacing: 0.5,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -177,7 +178,7 @@ class RecentWinnerCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF111827),
+                                    color: AppColors.blackText,
                                   ),
                                 ),
                               ],
@@ -203,7 +204,7 @@ class RecentWinnerCard extends StatelessWidget {
                     SizedBox(width: 3.w),
                     const Icon(
                       Icons.verified,
-                      color: Color(0xFF10B981),
+                      color: AppColors.verifiedGreen,
                       size: 14,
                     ),
                   ],
@@ -212,8 +213,9 @@ class RecentWinnerCard extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 4.h),
-          Divider(color: const Color(0xFFB3D9FF), thickness: 1.0),
+          // SizedBox(height: 4.h),
+          Spacer(),
+          const Divider(color: AppColors.borderBlue, thickness: 1.0),
 
           /// 📅 Footer with Date + Verified status
           Row(
@@ -223,7 +225,7 @@ class RecentWinnerCard extends StatelessWidget {
                 winner.dateWon.toUpperCase(),
                 style: TextStyle(
                   fontSize: 9.sp,
-                  color: const Color(0xFF6B7280),
+                  color: AppColors.greyText,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -233,13 +235,13 @@ class RecentWinnerCard extends StatelessWidget {
                     width: 8.w,
                     height: 8.w,
                     decoration: const BoxDecoration(
-                      color: Color(0xFF10B981),
+                      color: AppColors.verifiedGreen,
                       shape: BoxShape.circle,
                     ),
                   ),
                   SizedBox(width: 6.w),
                   Text(
-                    'VERIFIED',
+                    AppStrings.verified,
                     style: TextStyle(
                       fontSize: 9.sp,
                       fontWeight: FontWeight.w500,

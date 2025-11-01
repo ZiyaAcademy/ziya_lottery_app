@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:ziya_lottery_app/common_widgets/gradient_container.dart';
+import 'package:ziya_lottery_app/constants/app_colors.dart';
+import 'package:ziya_lottery_app/constants/app_strings.dart';
 import '../view_models/prediction.vm.dart';
 
 class TodaysFeaturedPredictionCard extends StatelessWidget {
@@ -18,11 +20,11 @@ class TodaysFeaturedPredictionCard extends StatelessWidget {
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: AppColors.shadowColor.withOpacity(0.1),
                 blurRadius: 6,
                 offset: const Offset(0, 3),
               ),
@@ -42,17 +44,17 @@ class TodaysFeaturedPredictionCard extends StatelessWidget {
                         width: 4.w,
                         height: 20.h,
                         decoration: BoxDecoration(
-                          color: Colors.blue,
+                          color: AppColors.primaryBlue,
                           borderRadius: BorderRadius.circular(2.r),
                         ),
                       ),
                       SizedBox(width: 6.w),
-                      const Text(
-                        "TODAY’S FEATURED PREDICTION",
+                      Text(
+                        AppStrings.todaysFeaturedPrediction,
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
-                          color: Colors.blue,
+                          color: AppColors.primaryBlue,
                         ),
                       ),
                     ],
@@ -63,14 +65,14 @@ class TodaysFeaturedPredictionCard extends StatelessWidget {
                       vertical: 2.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: AppColors.newGreen,
                       borderRadius: BorderRadius.circular(6.r),
                     ),
-                    child: const Text(
-                      "NEW",
+                    child: Text(
+                      AppStrings.newLabel,
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
+                        color: AppColors.white,
+                        fontSize: 10.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -82,9 +84,9 @@ class TodaysFeaturedPredictionCard extends StatelessWidget {
 
               Text(
                 vm.featuredTitle,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
+                style: TextStyle(
+                  color: AppColors.black,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -97,14 +99,14 @@ class TodaysFeaturedPredictionCard extends StatelessWidget {
                 children: vm.predictionNumbers
                     .map(
                       (num) => GradientContainer(
-                        height: 25,
-                        width: 45,
+                        height: ScreenUtil().screenWidth > 600 ? 35.h : 25.h,
+                        width: 45.w,
                         child: Center(
                           child: Text(
                             num,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -119,15 +121,15 @@ class TodaysFeaturedPredictionCard extends StatelessWidget {
               // 📅 Date Row
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.calendar_today,
-                    color: Colors.blue,
-                    size: 16,
+                    color: AppColors.primaryBlue,
+                    size: 16.sp,
                   ),
                   SizedBox(width: 6.w),
                   Text(
-                    "Predicted For: ${vm.predictedForDay}",
-                    style: const TextStyle(color: Colors.black54, fontSize: 12),
+                    "${AppStrings.predictedFor} ${vm.predictedForDay}",
+                    style: TextStyle(color: AppColors.black54, fontSize: 12.sp),
                   ),
                 ],
               ),
@@ -143,22 +145,22 @@ class TodaysFeaturedPredictionCard extends StatelessWidget {
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 10.h),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(14.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: AppColors.shadowColor.withOpacity(0.08),
                 blurRadius: 6,
                 offset: const Offset(0, 3),
               ),
             ],
           ),
           child: Text(
-            "YOUR ACTIVE PLAN : ${vm.activePlan}",
-            style: const TextStyle(
-              fontSize: 13,
+            "${AppStrings.yourActivePlan}${vm.activePlan}",
+            style: TextStyle(
+              fontSize: 13.sp,
               fontWeight: FontWeight.w600,
-              color: Colors.black87,
+              color: AppColors.black87,
             ),
           ),
         ),

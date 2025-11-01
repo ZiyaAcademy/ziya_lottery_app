@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:ziya_lottery_app/Constants/app_colors.dart';
 import 'package:ziya_lottery_app/Constants/app_strings.dart';
 import 'package:ziya_lottery_app/Result/ViewModel/lottery_view_model.dart';
-import 'package:ziya_lottery_app/Result/widgets/custom_app_bar.dart';
+import 'package:ziya_lottery_app/common_widgets/gradient_header.dart';
+import 'package:ziya_lottery_app/constants/app_colors.dart';
 import '../widgets/ad_view_content.dart';
 import '../widgets/results_view_content.dart';
 import '../widgets/search_card.dart';
@@ -36,34 +36,16 @@ class ResultScreen extends StatelessWidget {
                         Text(
                           AppStrings.appTitle,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                                backgroundColor: Colors.black87,
-                                content: Text(
-                                  'Barcode Scan feature coming soon!',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
-                          },
+                          onTap: () {},
                           child: Icon(
                             Icons.qr_code_scanner,
-                            color: Colors.white,
+                            color: AppColors.white,
                             size: 25.sp,
                           ),
                         ),

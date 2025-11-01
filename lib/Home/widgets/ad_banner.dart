@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ziya_lottery_app/Constants/app_colors.dart';
 
 class AdBanner extends StatefulWidget {
   final List<String> imageUrls;
@@ -48,7 +49,7 @@ class _AdBannerState extends State<AdBanner> {
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) return child;
                 return Container(
-                  color: Colors.grey[200],
+                  color: AppColors.grey200,
                   child: const Center(child: CircularProgressIndicator()),
                 );
               },

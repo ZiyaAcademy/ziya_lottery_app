@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:ziya_lottery_app/Constants/app_colors.dart';
+import 'package:ziya_lottery_app/features/HelpSupport/views/help_support_view.dart';
 import 'package:ziya_lottery_app/ProfileScreen/view_model/profile_view_model.dart';
-import 'package:ziya_lottery_app/Result/widgets/custom_app_bar.dart';
+import 'package:ziya_lottery_app/common_widgets/gradient_header.dart';
+import 'package:ziya_lottery_app/features/privacy_policy/view/privacy_policy_view.dart';
+import 'package:ziya_lottery_app/features/terms_conditions/view/terms_conditions_view.dart';
+import 'package:ziya_lottery_app/subscriptionSection/view/subscription_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -19,7 +24,6 @@ class ProfileScreen extends StatelessWidget {
           return Stack(
             alignment: Alignment.topCenter,
             children: [
-              /// Scrollable content under header
               Padding(
                 padding: EdgeInsets.only(top: 300.h),
                 child: SingleChildScrollView(
@@ -34,7 +38,7 @@ class ProfileScreen extends StatelessWidget {
                           SizedBox(height: 110.h),
                           _buildInfoSection(vm),
                           _buildSettingsSection(vm),
-                          _buildMoreSection(vm),
+                          _buildMoreSection(context, vm),
                           _buildLogoutButton(context, vm),
                           SizedBox(height: 50.h),
                         ],
@@ -44,7 +48,6 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
 
-              /// Fixed Header + Floating Card
               SizedBox(
                 height: 350.h,
                 child: Stack(
@@ -58,19 +61,11 @@ class ProfileScreen extends StatelessWidget {
                           children: [
                             Padding(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 12.w,
+                                horizontal: 16.w,
                                 vertical: 10.h,
                               ),
                               child: Row(
                                 children: [
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_back,
-                                      color: Colors.white,
-                                      size: 22.w,
-                                    ),
-                                    onPressed: () => Navigator.pop(context),
-                                  ),
                                   SizedBox(width: 6.w),
                                   Text(
                                     "Profile",
@@ -110,11 +105,10 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
 
-                    /// Floating plan card
                     Positioned(
-                      bottom: -60.h,
-                      left: 20.w,
-                      right: 20.w,
+                      bottom: -30.0.h,
+                      left: 16.w,
+                      right: 16.w,
                       child: Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: 12.w,
@@ -196,7 +190,14 @@ class ProfileScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SubscriptionScreen(),
+                                  ),
+                                );
+                              },
                               child: Text(
                                 "Upgrade Plan",
                                 style: TextStyle(
@@ -290,17 +291,23 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMoreSection(ProfileViewModel vm) {
+  Widget _buildMoreSection(BuildContext context, ProfileViewModel vm) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _sectionTitle("More"),
-          _buildSettingTile(Icons.history, "Prediction History", () {}),
-          _buildSettingTile(Icons.help_outline, "Help & Support", () {}),
-          _buildSettingTile(Icons.article, "Terms & Conditions", () {}),
-          _buildSettingTile(Icons.privacy_tip, "Privacy & Policy", () {}),
+          // _buildSettingTile(Icons.history, "Prediction History", () {}),
+          _buildSettingTile(Icons.help_outline, "Help & Support", () {
+            pushWithTransition(context, const HelpSupportView());
+          }),
+          _buildSettingTile(Icons.article, "Terms & Conditions", () {
+            pushWithTransition(context, const TermsConditionsView());
+          }),
+          _buildSettingTile(Icons.privacy_tip, "Privacy & Policy", () {
+            pushWithTransition(context, const PrivacyPolicyView());
+          }),
         ],
       ),
     );
@@ -393,4 +400,16 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void pushWithTransition(BuildContext context, Widget page) {
+  Navigator.push(
+    context,
+    PageTransition(
+      type: PageTransitionType.bottomToTop,
+      curve: Curves.easeInOut,
+      duration: const Duration(milliseconds: 300),
+      child: page,
+    ),
+  );
 }

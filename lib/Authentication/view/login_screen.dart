@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:ziya_lottery_app/Authentication/view_model/auth_vm.dart';
+import 'package:ziya_lottery_app/Authentication/widgets/auth_divider_section.dart';
 import 'package:ziya_lottery_app/Authentication/widgets/custom_button.dart';
 import 'package:ziya_lottery_app/Authentication/widgets/custom_textfield.dart';
 import 'package:ziya_lottery_app/Authentication/widgets/gradient_background.dart';
@@ -12,8 +15,7 @@ class SignInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final phoneController = TextEditingController();
-    final passController = TextEditingController();
+    final authVM = Provider.of<AuthViewModel>(context);
 
     return Scaffold(
       body: Stack(
@@ -56,20 +58,18 @@ class SignInView extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                           child: Column(
                             children: [
-                              // 🔹 Phone Number
                               CustomTextField(
                                 label: AppStrings.phoneNumber,
                                 hint: '0987654321',
-                                controller: phoneController,
+                                controller: authVM.phoneController,
                                 keyboardType: TextInputType.phone,
                               ),
                               SizedBox(height: 20.h),
-                              // 🔹 Password
                               CustomTextField(
                                 label: AppStrings.password,
                                 hint: '******',
-                                controller: passController,
-                                obscure: true,
+                                controller: authVM.passwordController,
+                                obscure: !authVM.isPasswordVisible,
                               ),
                             ],
                           ),
@@ -78,14 +78,15 @@ class SignInView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const RememberMeRow(),
+                            GestureDetector(
+                              onTap: authVM.toggleRememberMe,
+                              child: const RememberMeRow(),
+                            ),
                             TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/forgot-password',
-                                );
-                              },
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                '/forgot-password',
+                              ),
                               child: Text(
                                 AppStrings.forgetPass,
                                 style: TextStyle(
@@ -97,11 +98,10 @@ class SignInView extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 20.h),
-                        // 🔹 Sign In Button
                         CustomButton(
                           borderRadius: 50.0.r,
                           text: AppStrings.signIn,
-                          onPressed: () {},
+                          onPressed: () => authVM.signIn(context),
                         ),
                         SizedBox(height: 20.h),
                         Center(
@@ -109,79 +109,16 @@ class SignInView extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 28.0.w),
                             child: Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        height: 1,
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              AppColors.transparent,
-                                              AppColors.grey,
-                                            ],
-                                            begin: Alignment.centerLeft,
-                                            end: Alignment.centerRight,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 50.w),
-                                    Text(
-                                      AppStrings.or,
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                    SizedBox(width: 50.w),
-                                    Expanded(
-                                      child: Container(
-                                        height: 1,
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              AppColors.grey,
-                                              AppColors.transparent,
-                                            ],
-                                            begin: Alignment.centerLeft,
-                                            end: Alignment.centerRight,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 10.h),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      AppStrings.dontHaveAccount,
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                    SizedBox(width: 8.w),
-                                    TextButton(
-                                      onPressed: () {},
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                        minimumSize: Size.zero,
-                                        tapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                      ),
-                                      child: Text(
-                                        AppStrings.noAccount,
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 14.sp,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                AuthDividerSection(
+                                  labelText: AppStrings.dontHaveAccount,
+                                  buttonText: AppStrings.noAccount,
+                                  onButtonPressed: () {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      '/signup',
+                                      (route) => false,
+                                    );
+                                  },
                                 ),
                               ],
                             ),
