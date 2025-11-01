@@ -86,7 +86,7 @@ import 'package:ziya_lottery_app/Histroy/view_model/prediction_history_view_mode
 import 'package:ziya_lottery_app/Histroy/widgets/prediction_card.dart'
     show PredictionCard;
 import 'package:ziya_lottery_app/Histroy/widgets/tab_selector.dart';
-import 'package:ziya_lottery_app/Result/widgets/custom_app_bar.dart'; // import your GradientHeader
+import 'package:ziya_lottery_app/common_widgets/gradient_header.dart'; // import your GradientHeader
 
 class PredictionHistoryScreen extends StatefulWidget {
   const PredictionHistoryScreen({super.key});
@@ -126,7 +126,7 @@ class _PredictionHistoryScreenState extends State<PredictionHistoryScreen> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 12.w,
-                    vertical: 12.h,
+                    vertical: 12.h, 
                   ),
                   child: Row(
                     children: [

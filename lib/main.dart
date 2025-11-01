@@ -26,6 +26,8 @@ import 'package:ziya_lottery_app/common_widgets/bottomNav_bar.dart';
 import 'package:ziya_lottery_app/features/privacy_policy/view_model/privacy_policy_vm.dart';
 import 'package:ziya_lottery_app/features/terms_conditions/view_model/terms_conditions_vm.dart';
 
+import 'package:ziya_lottery_app/subscriptionSection/view_model/subscription_view_model.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -37,6 +39,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => NotificationViewModel()),
         ChangeNotifierProvider(create: (_) => PredictionViewModel()),
         ChangeNotifierProvider(create: (_) => LotteryViewModel()),
+        ChangeNotifierProvider(create: (_) => SubscriptionViewModel()),
         ChangeNotifierProvider(create: (_) => PredictionHistoryViewModel()),
         ChangeNotifierProvider(create: (_) => ProfileViewModel()),
         ChangeNotifierProvider(create: (_) => HelpSupportViewModel()),

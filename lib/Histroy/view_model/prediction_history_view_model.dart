@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../model/prediction_model.dart';
 
 class PredictionHistoryViewModel extends ChangeNotifier {
+  // Helper to get today's date formatted
+  final String _today = DateFormat('dd-MM-yyyy').format(DateTime.now());
+
   // Initial sample data (matches the screenshot)
-  final List<PredictionModel> _allPredictions = [
+  late final List<PredictionModel> _allPredictions = [
     PredictionModel(
       title: 'Bhagyathara',
-      date: '25-10-2025',
+      date: _today,
       prize: '1st prize',
       plan: 'Plan 3',
       result: 'No Match',
@@ -15,7 +19,7 @@ class PredictionHistoryViewModel extends ChangeNotifier {
     ),
     PredictionModel(
       title: 'Sthree Sakthi',
-      date: '25-10-2025',
+      date: _today,
       prize: '2nd prize',
       plan: 'Plan 3',
       result: 'No Match',
@@ -24,7 +28,7 @@ class PredictionHistoryViewModel extends ChangeNotifier {
     ),
     PredictionModel(
       title: 'Karunya Plus',
-      date: '25-10-2025',
+      date: _today,
       prize: '1st prize',
       plan: 'Plan 3',
       result: 'Close Match',
@@ -33,7 +37,7 @@ class PredictionHistoryViewModel extends ChangeNotifier {
     ),
     PredictionModel(
       title: 'Dhanalekshmi',
-      date: '25-10-2025',
+      date: _today,
       prize: 'Consolation',
       plan: 'Plan 1',
       result: 'Pending',
