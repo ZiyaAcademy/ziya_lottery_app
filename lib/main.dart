@@ -45,6 +45,13 @@ void main() async {
         ChangeNotifierProvider(create: (_) => HelpSupportViewModel()),
         ChangeNotifierProvider(create: (_) => TermsConditionsViewModel()),
         ChangeNotifierProvider(create: (_) => PrivacyPolicyViewModel()),
+        ChangeNotifierProxyProvider<HomeViewModel, PredictionViewModel>(
+          create: (_) => PredictionViewModel(),
+          update: (_, homeVM, predictionVM) {
+            predictionVM!.init(homeVM);
+            return predictionVM;
+          },
+        ),
       ],
       child: const MyApp(),
     ),
