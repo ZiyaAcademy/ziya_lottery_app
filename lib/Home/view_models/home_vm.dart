@@ -5,7 +5,7 @@ import 'package:ziya_lottery_app/authentication/models/auth_model.dart';
 class HomeViewModel extends ChangeNotifier {
   bool isLoading = false;
   bool isPlanExpired = false;
-  bool todayPredicted = true; // ✅ new flag
+  bool todayPredicted = false; // ✅ new flag
 
   UserModel currentUser = UserModel(
     name: "John Doe",
@@ -36,7 +36,7 @@ class HomeViewModel extends ChangeNotifier {
 
     //setFreePlan();
     setPurchasedPlan("Basic Plan");
-    //setPlanExpired();
+    setPlanExpired();
 
     await Future.delayed(const Duration(milliseconds: 500));
 

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:ziya_lottery_app/Authentication/view_model/auth_vm.dart';
+import 'package:ziya_lottery_app/Authentication/widgets/auth_divider_section.dart';
 import 'package:ziya_lottery_app/Authentication/widgets/custom_button.dart';
 import 'package:ziya_lottery_app/Authentication/widgets/custom_textfield.dart';
 import 'package:ziya_lottery_app/Authentication/widgets/gradient_background.dart';
@@ -11,20 +14,18 @@ class ForgotPasswordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final phoneController = TextEditingController();
+    final authVM = Provider.of<AuthViewModel>(context, listen: false);
 
     return Scaffold(
       body: Stack(
         children: [
-          AuthGradientBackground(),
+          const AuthGradientBackground(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // 🔹 Header Section
               Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 35.0.w,
-                  vertical: 60.0.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 35.w, vertical: 60.h),
                 child: Text(
                   AppStrings.forgetPassword,
                   style: TextStyle(
@@ -35,6 +36,7 @@ class ForgotPasswordView extends StatelessWidget {
                 ),
               ),
 
+              // 🔹 Body Section
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -49,46 +51,55 @@ class ForgotPasswordView extends StatelessWidget {
                       topRight: Radius.circular(40.r),
                     ),
                   ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 30.h),
-                        CustomTextField(
-                          label: AppStrings.phoneNumber,
-                          hint: '0987654321',
-                          controller: phoneController,
-                          keyboardType: TextInputType.phone,
-                        ),
-                        SizedBox(height: 30.h),
-                        CustomButton(
-                          borderRadius: 50.0.r,
-                          text: AppStrings.sentCode,
-                          onPressed: () {},
-                        ),
-                        SizedBox(height: 30.h),
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 28.0.w),
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                AppStrings.BackToLogin,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: AppColors.green,
-                                  color: AppColors.green,
-                                ),
-                              ),
+                  child: Consumer<AuthViewModel>(
+                    builder: (context, authVM, _) {
+                      return SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 30.h),
+
+                            // 🔹 Phone Number Field
+                            CustomTextField(
+                              label: AppStrings.phoneNumber,
+                              hint: '0987654321',
+                              controller: authVM.phoneController,
+                              keyboardType: TextInputType.phone,
                             ),
-                          ),
+
+                            SizedBox(height: 30.h),
+
+                            // 🔹 Send Code Button
+                            CustomButton(
+                              borderRadius: 50.r,
+                              text: authVM.isLoading
+                                  ? "Please wait..."
+                                  : AppStrings.sentCode,
+                              onPressed: authVM.isLoading
+                                  ? () {}
+                                  : () {
+                                      authVM.sendForgotPasswordCode(context);
+                                    },
+                            ),
+
+                            SizedBox(height: 30.h),
+
+                            // 🔹 Back to Login
+                            AuthDividerSection(
+                              labelText: AppStrings.backTo,
+                              buttonText: AppStrings.login,
+                              onButtonPressed: () {
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  '/signin',
+                                  (route) => false,
+                                );
+                              },
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 ),
               ),

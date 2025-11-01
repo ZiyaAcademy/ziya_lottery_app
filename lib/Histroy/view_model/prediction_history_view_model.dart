@@ -42,6 +42,7 @@ class PredictionHistoryViewModel extends ChangeNotifier {
     ),
   ];
 
+  final List<String> tabs = ['ALL', 'Completed', 'Pending'];
   String _selectedTab = 'ALL'; // default
 
   List<PredictionModel> get predictions {
@@ -49,6 +50,12 @@ class PredictionHistoryViewModel extends ChangeNotifier {
     return List.unmodifiable(
       _allPredictions.where((p) => p.status == _selectedTab),
     );
+  }
+
+  // Helper to get predictions for a specific tab for the PageView
+  List<PredictionModel> getPredictionsForTab(String tab) {
+    if (tab == 'ALL') return List.unmodifiable(_allPredictions);
+    return List.unmodifiable(_allPredictions.where((p) => p.status == tab));
   }
 
   String get selectedTab => _selectedTab;

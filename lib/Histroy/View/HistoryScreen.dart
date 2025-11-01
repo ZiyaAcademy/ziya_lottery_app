@@ -1,3 +1,82 @@
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:ziya_lottery_app/Constants/app_colors.dart';
+// import 'package:ziya_lottery_app/Constants/app_strings.dart';
+// import 'package:ziya_lottery_app/Histroy/view_model/prediction_history_view_model.dart';
+// import 'package:ziya_lottery_app/Histroy/widgets/prediction_card.dart'
+//     show PredictionCard;
+// import 'package:ziya_lottery_app/Histroy/widgets/tab_selector.dart';
+// import 'package:ziya_lottery_app/Result/widgets/custom_app_bar.dart'; // import your GradientHeader
+
+// class PredictionHistoryScreen extends StatelessWidget {
+//   const PredictionHistoryScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final viewModel = Provider.of<PredictionHistoryViewModel>(context);
+
+//     return Scaffold(
+//       backgroundColor: AppColors.backgroundGrey,
+//       body: Column(
+//         children: [
+//           SizedBox(
+//             height: 100.h,
+//             child: GradientHeader(
+//               child: SafeArea(
+//                 bottom: false,
+//                 child: Padding(
+//                   padding: EdgeInsets.symmetric(
+//                     horizontal: 12.w,
+//                     vertical: 12.h,
+//                   ),
+//                   child: Row(
+//                     children: [
+//                       SizedBox(width: 4.w),
+//                       Text(
+//                         'Prediction History',
+//                         style: TextStyle(
+//                           color: AppColors.white,
+//                           fontSize: 18.sp,
+//                           fontWeight: FontWeight.w600,
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ),
+
+//           // Tabs
+//           TabSelector(
+//             selectedTab: viewModel.selectedTab,
+//             onTabSelected: viewModel.setTab,
+//           ),
+
+//           // Content
+//           Expanded(
+//             child: viewModel.predictions.isEmpty
+//                 ? Center(
+//                     child: Text(
+//                       AppStrings.noResults ?? 'No results',
+//                       style: TextStyle(color: AppColors.grey, fontSize: 14.sp),
+//                     ),
+//                   )
+//                 : ListView.builder(
+//                     padding: EdgeInsets.symmetric(vertical: 10.h),
+//                     itemCount: viewModel.predictions.length,
+//                     itemBuilder: (context, index) {
+//                       final item = viewModel.predictions[index];
+//                       return PredictionCard(prediction: item);
+//                     },
+//                   ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,13 +88,32 @@ import 'package:ziya_lottery_app/Histroy/widgets/prediction_card.dart'
 import 'package:ziya_lottery_app/Histroy/widgets/tab_selector.dart';
 import 'package:ziya_lottery_app/Result/widgets/custom_app_bar.dart'; // import your GradientHeader
 
-class PredictionHistoryScreen extends StatelessWidget {
+class PredictionHistoryScreen extends StatefulWidget {
   const PredictionHistoryScreen({super.key});
+
+  @override
+  State<PredictionHistoryScreen> createState() =>
+      _PredictionHistoryScreenState();
+}
+
+class _PredictionHistoryScreenState extends State<PredictionHistoryScreen> {
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<PredictionHistoryViewModel>(context);
-
     return Scaffold(
       backgroundColor: AppColors.backgroundGrey,
       body: Column(
@@ -48,29 +146,53 @@ class PredictionHistoryScreen extends StatelessWidget {
             ),
           ),
 
-          // Tabs
+          // Tabs - Now controls the PageView
           TabSelector(
             selectedTab: viewModel.selectedTab,
-            onTabSelected: viewModel.setTab,
+            onTabSelected: (tab) {
+              final tabIndex = viewModel.tabs.indexOf(tab);
+              if (tabIndex != -1) {
+                _pageController.animateToPage(
+                  tabIndex,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              }
+            },
           ),
 
-          // Content
+          // Content - Switched to PageView
           Expanded(
-            child: viewModel.predictions.isEmpty
-                ? Center(
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: viewModel.tabs.length,
+              onPageChanged: (index) {
+                viewModel.setTab(viewModel.tabs[index]);
+              },
+              itemBuilder: (context, pageIndex) {
+                final currentTab = viewModel.tabs[pageIndex];
+                final predictions = viewModel.getPredictionsForTab(currentTab);
+
+                if (predictions.isEmpty) {
+                  return Center(
                     child: Text(
-                      AppStrings.noResults ?? 'No results',
+                      AppStrings.noResults,
                       style: TextStyle(color: AppColors.grey, fontSize: 14.sp),
                     ),
-                  )
-                : ListView.builder(
-                    padding: EdgeInsets.symmetric(vertical: 10.h),
-                    itemCount: viewModel.predictions.length,
-                    itemBuilder: (context, index) {
-                      final item = viewModel.predictions[index];
-                      return PredictionCard(prediction: item);
-                    },
-                  ),
+                  );
+                }
+
+                return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  itemCount: predictions.length,
+                  itemBuilder: (context, itemIndex) {
+                    final item = predictions[itemIndex];
+                    return PredictionCard(prediction: item);
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
