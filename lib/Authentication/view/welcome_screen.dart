@@ -61,7 +61,7 @@ class WelcomeView extends StatelessWidget {
                       text: AppStrings.signUp,
                       textColor: AppColors.black,
                       onPressed: () {
-                        Navigator.pushNamed(context, '/forgot-password');
+                        Navigator.pushNamed(context, '/signup');
                       },
                     ),
                   ],

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:ziya_lottery_app/Constants/app_colors.dart';
+import 'package:ziya_lottery_app/Constants/app_strings.dart';
 import 'package:ziya_lottery_app/Home/view_models/home_vm.dart';
 import 'package:ziya_lottery_app/Home/widgets/ad_banner.dart';
 import 'package:ziya_lottery_app/Home/widgets/recent_winner_carousel.dart';
 import 'package:ziya_lottery_app/Home/widgets/shimmer_loader.dart';
+import 'package:ziya_lottery_app/Notification/view/notification_view.dart';
 import 'package:ziya_lottery_app/Prediction_section/view_models/prediction.vm.dart';
 import 'package:ziya_lottery_app/Prediction_section/views/prediction_category_screen.dart';
 import 'package:ziya_lottery_app/Prediction_section/widgets/todaysFeaturedPredictionCard.dart';
@@ -23,9 +26,10 @@ class HomeScreen extends StatelessWidget {
       body: Consumer<HomeViewModel>(
         builder: (context, vm, _) {
           if (vm.isLoading) return const HomeShimmerLoader();
+
           return Column(
             children: [
-              /// 🟦 Gradient Header (fixed top, height = content)
+              /// 🟦 Gradient Header
               GradientHeader(
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -46,16 +50,16 @@ class HomeScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Welcome Back!',
+                                  AppStrings.welcomeBack,
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: AppColors.white,
                                     fontSize: 20.sp,
                                   ),
                                 ),
                                 Text(
                                   vm.currentUser.name,
                                   style: TextStyle(
-                                    color: Colors.white70,
+                                    color: AppColors.white70,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15.sp,
                                   ),
@@ -63,7 +67,17 @@ class HomeScreen extends StatelessWidget {
                               ],
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    curve: Curves.easeInOut,
+                                    duration: const Duration(milliseconds: 300),
+                                    child: const NotificationView(),
+                                  ),
+                                );
+                              },
                               child: Container(
                                 padding: EdgeInsets.all(5.w),
                                 decoration: const BoxDecoration(
@@ -85,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                                         width: 8.w,
                                         height: 8.w,
                                         decoration: const BoxDecoration(
-                                          color: Colors.red,
+                                          color: AppColors.red,
                                           shape: BoxShape.circle,
                                         ),
                                       ),
@@ -132,15 +146,16 @@ class HomeScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'All Lotteries',
+                              AppStrings.allLotteries,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16.sp,
+                                color: AppColors.black,
                               ),
                             ),
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.green,
+                                color: AppColors.green,
                                 borderRadius: BorderRadius.circular(5.r),
                               ),
                               padding: EdgeInsets.symmetric(
@@ -148,9 +163,9 @@ class HomeScreen extends StatelessWidget {
                                 vertical: 5.h,
                               ),
                               child: Text(
-                                'Prediction',
+                                AppStrings.prediction,
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                   fontSize: 13.sp,
                                 ),
                               ),
