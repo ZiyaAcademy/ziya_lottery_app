@@ -45,6 +45,7 @@ dependencies:
   pin_code_fields: ^8.0.1
   page_transition: ^2.2.1
   stacked_cards_carousel: ^1.0.1
+  liquidglass_container: ^1.0.2
 
  
 
