@@ -1,0 +1,83 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../model/prediction_model.dart';
+
+class PredictionHistoryViewModel extends ChangeNotifier {
+  // Helper to get today's date formatted
+  final String _today = DateFormat('dd-MM-yyyy').format(DateTime.now());
+
+  // Initial sample data (matches the screenshot)
+  late final List<PredictionModel> _allPredictions = [
+    PredictionModel(
+      title: 'Bhagyathara',
+      date: _today,
+      prize: '1st prize',
+      plan: 'Plan 3',
+      result: 'No Match',
+      status: 'Completed',
+      ticketNumber: 'WN 432556',
+    ),
+    PredictionModel(
+      title: 'Sthree Sakthi',
+      date: _today,
+      prize: '2nd prize',
+      plan: 'Plan 3',
+      result: 'No Match',
+      status: 'Completed',
+      ticketNumber: 'AK 789234',
+    ),
+    PredictionModel(
+      title: 'Karunya Plus',
+      date: _today,
+      prize: '1st prize',
+      plan: 'Plan 3',
+      result: 'Close Match',
+      status: 'Completed',
+      ticketNumber: 'KR 567890',
+    ),
+    PredictionModel(
+      title: 'Dhanalekshmi',
+      date: _today,
+      prize: 'Consolation',
+      plan: 'Plan 1',
+      result: 'Pending',
+      status: 'Pending',
+      ticketNumber: 'IN 234567',
+    ),
+  ];
+
+  final List<String> tabs = ['ALL', 'Completed', 'Pending'];
+  String _selectedTab = 'ALL'; // default
+
+  List<PredictionModel> get predictions {
+    if (_selectedTab == 'ALL') return List.unmodifiable(_allPredictions);
+    return List.unmodifiable(
+      _allPredictions.where((p) => p.status == _selectedTab),
+    );
+  }
+
+  // Helper to get predictions for a specific tab for the PageView
+  List<PredictionModel> getPredictionsForTab(String tab) {
+    if (tab == 'ALL') return List.unmodifiable(_allPredictions);
+    return List.unmodifiable(_allPredictions.where((p) => p.status == tab));
+  }
+
+  String get selectedTab => _selectedTab;
+
+  void setTab(String tab) {
+    if (_selectedTab == tab) return;
+    _selectedTab = tab;
+    notifyListeners();
+  }
+
+  // optional helpers for adding/removing in future
+  void addPrediction(PredictionModel model) {
+    _allPredictions.insert(0, model);
+    notifyListeners();
+  }
+
+  void clear() {
+    _allPredictions.clear();
+    notifyListeners();
+  }
+}
